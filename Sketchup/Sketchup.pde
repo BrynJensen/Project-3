@@ -1,6 +1,5 @@
 //drawing app
-//add background to button background invis unless tactile
-//add slider tactile
+
 
 color red = #FF0000;
 color orange = #FF8D00;
@@ -28,6 +27,17 @@ boolean justPressed;
 float sliderY;
 color slide;
 
+//indicator and line width
+float wide;
+
+//tell if mouse is over a button
+boolean circleHover;
+boolean squareHover;
+boolean sliderHover;
+
+//tell if drawing
+boolean drawing;
+
 void setup() {
   size(800, 600);
   background(255);
@@ -42,12 +52,6 @@ void draw() {
   noStroke();
   rect(0, 0, 800, 100);
 
-  //indicator
-  stroke(shade);
-  fill(shade);
-  rect(250, 300, 100, 50);
-  //  strokeWeight(slider thickness);
-  //  line(
 
   //colour selectors
   Cbutton(30, 33.33, 20, red);
@@ -63,18 +67,55 @@ void draw() {
 
   slider(300);
 
+
+// make cursor hand if hovering over a button and not hovering over canvas
+  if (circleHover == true || squareHover == true || sliderHover == true) {
+    cursor(HAND);
+  } else if (drawing != true) {
+    cursor(ARROW);
+  }
+
+//if cursor is over canvas, make mouse a cross
+if (drawing == true) {
+  cursor(CROSS);
+} else if (circleHover != true || squareHover != true || sliderHover != true) {
+ cursor(ARROW); 
+}
+
+// if cursor is over canvas, set drawing boolean to true
+  if (mouseY > 100) {
+    drawing = true;
+  } else {
+    drawing = false;
+  }
+
   justReleased = false;
   justPressed = false;
 } // end draw =====================================================
 
 void mousePressed() {
   justPressed = true;
+
+  noStroke();
+  fill(shade);
+
+  if (mouseY > 100) {
+    circle(mouseX, mouseY, wide);
+  }
+
+
+  if (mouseX < 315 && mouseX > 285) {
+    isDragging = true;
+  }
 }
 
 void mouseDragged() {
 
-  if (mouseX < 315 && mouseX > 285) {
-    isDragging = true;
+  fill(shade);
+  stroke(shade);
+
+  if (mouseY > 100) {
+    line(mouseX, mouseY, pmouseX, pmouseY);
   }
 }
 
@@ -119,6 +160,14 @@ void Sbutton(float X, float Y, int w, int h, int colour) { //square buttons
 
 void Ctactile(float xx, float yy, int D, int c) { // tactile for circles
 
+  //hover for cursor change
+  if (dist(mouseX, mouseY, xx, yy) < D / 2) {
+    circleHover = true;
+  } else {
+    circleHover = false;
+  }
+
+
   if (dist(mouseX, mouseY, xx, yy) < D / 2 && c != white) {
     stroke(white);
   } else {
@@ -134,6 +183,12 @@ void Ctactile(float xx, float yy, int D, int c) { // tactile for circles
 void Stactile(float XX, float YY, int W, int H, int C) { // tactile for squares
 
   if (mouseX > XX && mouseX < XX + W && mouseY > YY && mouseY < YY + H) {
+    squareHover = true;
+  } else {
+    squareHover = false;
+  }
+
+  if (mouseX > XX && mouseX < XX + W && mouseY > YY && mouseY < YY + H) {
     stroke(white);
   } else {
     stroke(C);
@@ -142,21 +197,41 @@ void Stactile(float XX, float YY, int W, int H, int C) { // tactile for squares
 
 
 void slider(int x) {
-  stroke(slide);
-  fill(slide);
+  stroke(black);
   strokeWeight(3);
 
+  //if slider is clicked on
   if (mouseX < x + 15 && mouseX > x - 15 && mouseY > 20 && mouseY < 80 && justPressed == true) {
     sliderY = mouseY;
   }
 
+  //if slider is dragged
   if (isDragging == true && mouseY > 20 && mouseY < 80) {
     sliderY = mouseY;
   }
+
 
   line(x, 20, x, 80);
 
   strokeWeight(2);
   fill(200);
+  stroke(slide);
   circle(x, sliderY, 12);
+
+  //slider tactile
+  if (isDragging == true || mouseX < x + 8 && mouseX > x - 8 && mouseY > 20 && mouseY < 80) {
+    slide = white;
+    sliderHover = true;
+  } else {
+    slide = black;
+    sliderHover = false;
+  }
+
+
+  //indicator
+  stroke(shade);
+  fill(shade);
+  wide = (map(sliderY, 20, 80, 1, 17));
+  strokeWeight(wide);
+  line(x + 30, 50, x + 100, 50);
 }
