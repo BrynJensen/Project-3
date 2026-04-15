@@ -1,4 +1,5 @@
 //drawing app
+//add load and save buttons
 
 PImage eraser;
 PImage grass;
@@ -96,6 +97,16 @@ void draw() {
 
   justReleased = false;
   justPressed = false;
+  
+  
+//save button
+Sbutton(675, 40, 50, 20, black);
+fill(white);
+textAlign(CENTER);
+text("save", 700, 55);
+
+//if (mouseX 
+
 } // end draw =====================================================
 
 void mousePressed() {
@@ -104,21 +115,27 @@ void mousePressed() {
   noStroke();
   fill(shade);
 
+
+//draw dot if mouse is on canvas and pressed once
   if (mouseY > 100 && grassOn != true && sunOn != true) {
     circle(mouseX, mouseY, wide);
   }
 
-
+//track if mouse is dragging for slider
   if (mouseX < 315 && mouseX > 285 && mouseY > 20 && mouseY < 80) {
     isDragging = true;
   }
+  
+  
 }
 
 void mouseDragged() {
 
   fill(shade);
   stroke(shade);
+  strokeWeight(wide); 
 
+//draw line if mouse is held over canvas and neither stamp is turned on
   if (mouseY > 100 && grassOn == false && sunOn == false) {
     line(mouseX, mouseY, pmouseX, pmouseY);
   }
