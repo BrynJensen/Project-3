@@ -157,7 +157,7 @@ void mouseDragged() {
   stroke(shade);
   strokeWeight(wide);
 
-  if (mouseY > 100 && grassOn == false && sunOn == false && mouseButton == LEFT) {
+  if (mouseY > 100 && pmouseY >100 && grassOn == false && sunOn == false && mouseButton == LEFT) {
     line(mouseX, mouseY, pmouseX, pmouseY);
   }
 } // end mousedragged ========================================
