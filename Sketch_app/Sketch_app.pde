@@ -1,5 +1,4 @@
 //drawing app
-//ask about line that appears if i double clock on the file i want to load, draws over task bar even
 
 PImage eraser;
 PImage grass;
@@ -334,7 +333,7 @@ void grassButton (int x, int y) {
   }
 
 //if grass switch is on, when pressed or dragged draw grass not line
-  if (grassOn == true && pictureDragging == true || justPressed == true && grassOn == true && pictureDragging == true) {
+  if (grassOn == true && pictureDragging == true  && mouseY > 100 || justPressed == true && grassOn == true && pictureDragging == true && mouseY > 100) {
     image(grass, mouseX, mouseY, map(sliderY, 20, 80, 20, 150), map(sliderY, 20, 80, 20, 150));
   }
 
@@ -362,7 +361,7 @@ void sunButton (int x, int y) {
   }
 
 //if sun is on, when clicked or dragged draw sun and not line or grass
-  if (sunOn == true && pictureDragging == true || justPressed == true && sunOn == true && pictureDragging == true) {
+  if (sunOn == true && pictureDragging == true  && mouseY > 100 || justPressed == true && sunOn == true && pictureDragging == true && mouseY > 100) {
     image(sun, mouseX, mouseY, map(sliderY, 20, 80, 20, 150), map(sliderY, 20, 80, 20, 150));
   }
 } // end sun =============================================================
